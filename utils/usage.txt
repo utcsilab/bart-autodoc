@@ -1,0 +1,34 @@
+This text file shows how to use the bash script. 
+
+Make it executable by running the following command:
+chmod +x convert.sh
+
+
+After that, you can run the script by providing the input and output file names as arguments, like this:
+./convert.sh input.md output.ipynb
+
+
+Alternatively, you can run: 
+./convert.sh input.ipynb output.md
+
+
+This script first checks whether the input and output files are provided and exist, and then performs the appropriate conversion based on the input file's extension. The converted file is saved with the specified output file name. 
+The script uses Jupyter's nbconvert command-line tool to perform the conversions.
+
+
+Note that the script provided does not automatically put the converted files in specific folders. 
+By default, the script will save the converted files in the same directory as the input file. 
+However, you can specify a different output directory using the --output-dir option in the jupyter nbconvert command.
+
+For example, to save the converted files in a directory named output:
+# Convert Markdown to Jupyter notebook and save output in the 'output' directory
+jupyter nbconvert --to notebook --output-dir=./output --output="$output_file" "$input_file"
+
+# Convert Jupyter notebook to Markdown and save output in the 'output' directory
+jupyter nbconvert --to markdown --output-dir=./output --output="${output_file%.*}.md" "$output_file"
+
+
+
+In this case, the converted files will be saved in a directory named output that is located in the same directory as the input file.
+
+You can modify the script to suit your needs and automate the conversion process by adding more options to the jupyter nbconvert command or by moving the converted files to a different directory after the conversion is complete.
