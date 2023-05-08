@@ -19,23 +19,23 @@ python convert.py
 This command will execute the convert.py script and convert the input file to the desired output format based on the file extension.
 
 
-# Markdown syntax guide
+## Markdown syntax guide
 
-# To learn how to write Markdown, visit:
-# https://www.markdownguide.org/basic-syntax/
+To learn how to write Markdown, visit:
+https://www.markdownguide.org/basic-syntax/
 
-# Markdown editors
+## Markdown editors
 
-# If you want to use a Markdown editor, we recommend one of the following:
-# - Typora: https://typora.io/
-# - Visual Studio Code with the Markdown All in One extension: https://code.visualstudio.com/
-# - Atom with the Markdown Preview Plus package: https://atom.io/packages/markdown-preview-plus
+ If you want to use a Markdown editor, we recommend one of the following:
+- Typora: https://typora.io/
+- Visual Studio Code with the Markdown All in One extension: https://code.visualstudio.com/
+- Atom with the Markdown Preview Plus package: https://atom.io/packages/markdown-preview-plus
 
-# Markdown viewers
+## Markdown viewers
 
-# If you want to view Markdown files without converting them, we recommend one of the following:
-# - grip: https://github.com/joeyespo/grip
-# - Mark Text: https://marktext.app/
-# - Zettlr: https://www.zettlr.com/
+If you want to view Markdown files without converting them, we recommend one of the following:
+- grip: https://github.com/joeyespo/grip
+- Mark Text: https://marktext.app/
+- Zettlr: https://www.zettlr.com/
 
 
