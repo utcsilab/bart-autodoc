@@ -17,7 +17,9 @@ This is a bash script that converts a Markdown file to Jupyter Notebook (.ipynb)
 
 3. Run the following command to make the script executable:
 
+```bash
 chmod +x convert.sh
+```
 
 ## Usage
 
@@ -31,6 +33,7 @@ Run the script with the input Markdown file as an argument. The script will conv
 
 ```bash
 ./convert.sh input.md
+```
 
 The generated Jupyter Notebook file (input.ipynb) will be created in the same directory as the input Markdown file.
 
