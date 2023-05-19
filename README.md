@@ -1,8 +1,23 @@
-# BART Autodoc
+# BART Autodoc 
 
-# Convert Jupyter Notebooks and Markdown Files
+# Convert Jupyter Notebooks and Markdown Files (By Ashwin Ram)
 
-This script allows you to convert Jupyter notebooks and Markdown files back and forth between each other. It uses the `nbconvert` and `nbformat` packages to handle the conversion.
+This is a bash script that converts a Markdown file to Jupyter Notebook (.ipynb) format. It utilizes the `jupytext` tool for the conversion.
+
+## Prerequisites
+
+- Python 3.x
+- `pip` (Python package manager)
+
+## Installation
+
+1. Clone the repository or download the script file (`convert.sh`) to your local machine.
+
+2. Open a terminal or command prompt and navigate to the directory containing the `convert.sh` script.
+
+3. Run the following command to make the script executable:
+
+chmod +x convert.sh
 
 ## Usage
 
@@ -12,12 +27,12 @@ pip install -r requirements.txt
 ```
 This command will install all the required packages listed in the requirements.txt file. Once you have installed the required packages, you can run the script by executing the following command:
 
+Run the script with the input Markdown file as an argument. The script will convert the Markdown file to Jupyter Notebook format and generate a corresponding `.ipynb` file.
+
 ```bash
-python convert.py
-```
+./convert.sh input.md
 
-This command will execute the convert.py script and convert the input file to the desired output format based on the file extension.
-
+The generated Jupyter Notebook file (input.ipynb) will be created in the same directory as the input Markdown file.
 
 ## Markdown syntax guide
 
