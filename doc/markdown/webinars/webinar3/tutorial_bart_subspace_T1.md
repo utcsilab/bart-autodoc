@@ -1,3 +1,16 @@
+---
+jupyter:
+  jupytext:
+    formats: md
+    text_representation:
+      extension: .md
+      format_name: markdown
+  kernelspec:
+    display_name: Bash
+    language: bash
+    name: bash
+---
+
 # Subspace-constrained Reconstruction for Inversion-prepared T1 Mapping in BART
 
 This tutorial uses the BART command-line inteface (CLI) (http://mrirecon.github.io/bart/) and presents how to use BART for inversion-prepared T1 Mapping using subspace-constrained reconstruction.

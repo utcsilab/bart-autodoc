@@ -1,3 +1,16 @@
+---
+jupyter:
+  jupytext:
+    formats: md
+    text_representation:
+      extension: .md
+      format_name: markdown
+  kernelspec:
+    display_name: Bash
+    language: bash
+    name: bash
+---
+
 ## Exercise: 
 ## Subspace-constrained Reconstruction for Inversion-prepared T1 Mapping in BART
 

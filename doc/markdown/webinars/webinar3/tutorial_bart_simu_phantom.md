@@ -1,3 +1,16 @@
+---
+jupyter:
+  jupytext:
+    formats: md
+    text_representation:
+      extension: .md
+      format_name: markdown
+  kernelspec:
+    display_name: Bash
+    language: bash
+    name: bash
+---
+
 # BARTs Simulated Tubes Phantom
 
 **Author**: Nick Scholand, nick.scholand@med.uni-goettingen.de, University Medical Center Göttingen

@@ -1,3 +1,16 @@
+---
+jupyter:
+  jupytext:
+    formats: md
+    text_representation:
+      extension: .md
+      format_name: markdown
+  kernelspec:
+    display_name: Bash
+    language: bash
+    name: bash
+---
+
 # BART Tutorial:
 # Subspace-Constrained Reconstruction of Frequency-Modulated SSFP Data
 
