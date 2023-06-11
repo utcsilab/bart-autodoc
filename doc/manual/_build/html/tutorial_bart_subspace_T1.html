@@ -1,0 +1,746 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Subspace-constrained Reconstruction for Inversion-prepared T1 Mapping in BART &#8212; BART Documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorial_bart_subspace_T1';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/bart.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/bart.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Table of Contents
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">Data Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Tool Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Viewers</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api.html">Developer API</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="iter.html">Iterative Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linops.html">Linear Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prox.html">Proximal Operators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="impl.html">Software Implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utest.html">Unit Tests</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Ftutorial_bart_subspace_T1.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/tutorial_bart_subspace_T1.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Subspace-constrained Reconstruction for Inversion-prepared T1 Mapping in BART</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">1. Prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">2. Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulations">3. Simulations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulate-the-inversion-prepared-radial-flash-raw-data-using-the-phantom-tool-in-bart">3.1 Simulate the inversion-prepared radial FLASH raw data using the phantom tool in BART</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#coil-sensitivity-estimation-using-the-steady-state-data-by-espirit">3.2 Coil sensitivity estimation using the steady-state data by ESPiRIT</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-subspace-reconstruction">3.3 Linear subspace reconstruction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-the-dictionary-perform-svd-and-create-the-temporal-basis">3.3.1 Generate the dictionary, perform SVD and create the temporal basis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perform-subspace-constrained-reconstruction-with-joint-l1-wavelet-constraints-on-the-coefficient-maps">3.3.2 Perform subspace-constrained reconstruction with joint l1-Wavelet constraints on the coefficient maps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#project-the-reconstructed-coefficient-maps-to-images-and-perform-pixel-wise-fitting-to-obtain-t1-map">3.3.3 Project the reconstructed coefficient maps to images and perform pixel-wise fitting to obtain T1 map</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="subspace-constrained-reconstruction-for-inversion-prepared-t1-mapping-in-bart">
+<h1>Subspace-constrained Reconstruction for Inversion-prepared T1 Mapping in BART<a class="headerlink" href="#subspace-constrained-reconstruction-for-inversion-prepared-t1-mapping-in-bart" title="Permalink to this heading">#</a></h1>
+<p>This tutorial uses the BART command-line inteface (CLI) (<a class="reference external" href="http://mrirecon.github.io/bart/">http://mrirecon.github.io/bart/</a>) and presents how to use BART for inversion-prepared T1 Mapping using subspace-constrained reconstruction.</p>
+<p>Main Reference:</p>
+<p>Wang X, Tan Z, Scholand N, Roeloffs V, Uecker M. Physics-based reconstruction methods for magnetic resonance imaging. accepted to Philos. Trans. R. Soc. A. arXiv:2010.01403.</p>
+<p>Author: Xiaoqing Wang, University Medical Center Göttingen (<a class="reference external" href="mailto:xiaoqing&#46;wang&#37;&#52;&#48;med&#46;uni-goettingen&#46;de">xiaoqing<span>&#46;</span>wang<span>&#64;</span>med<span>&#46;</span>uni-goettingen<span>&#46;</span>de</a>)</p>
+<section id="prerequisites">
+<h2>1. Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading">#</a></h2>
+<p>Make sure these paths are set correctly</p>
+<p><code class="docutils literal notranslate"><span class="pre">TOOLBOX_PATH=/Your/path/to/bart</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">PATH=$TOOLBOX_PATH:$PATH</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;BART version&quot;</span>
+bart<span class="w"> </span>version
+
+<span class="c1"># BASH function to write BART file to png,</span>
+<span class="c1"># display the png, and then remove it</span>
+<span class="k">function</span><span class="w"> </span>imshow<span class="w"> </span><span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>bart<span class="w"> </span>toimg<span class="w"> </span>-W<span class="w"> </span><span class="nv">$1</span><span class="w"> </span><span class="nv">$1</span>.png<span class="w"> </span>&gt;<span class="w"> </span>/dev/null
+<span class="w">    </span>cat<span class="w"> </span><span class="nv">$1</span>.png<span class="w"> </span><span class="p">|</span><span class="w"> </span>display
+<span class="o">}</span>
+<span class="nb">export</span><span class="w"> </span>-f<span class="w"> </span>imshow
+
+<span class="k">function</span><span class="w"> </span>imshow_colormap<span class="w"> </span><span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>python3<span class="w"> </span>save_maps.py<span class="w"> </span><span class="nv">$1</span><span class="w"> </span>viridis<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">2</span>.0<span class="w"> </span><span class="nv">$1</span>.png<span class="w"> </span>&gt;<span class="w"> </span>/dev/null
+<span class="o">}</span>
+<span class="nb">export</span><span class="w"> </span>-f<span class="w"> </span>imshow_colormap
+
+<span class="c1"># BASH function to visualize timesteps of BART cfl file</span>
+<span class="k">function</span><span class="w"> </span>show_timesteps<span class="w"> </span><span class="o">()</span><span class="w"> </span><span class="o">{</span>
+
+<span class="w">    </span><span class="nv">data</span><span class="o">=</span><span class="nv">$1</span>
+<span class="w">    </span><span class="nb">shift</span>
+<span class="w">    </span><span class="nv">pos</span><span class="o">=(</span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span><span class="o">)</span>
+
+<span class="w">    </span><span class="nv">ind</span><span class="o">=</span><span class="m">0</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span>t<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">pos</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="k">do</span>
+<span class="w">       </span>bart<span class="w"> </span>slice<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="nv">$t</span><span class="w"> </span><span class="nv">$data</span><span class="w"> </span>_slice<span class="nv">$ind</span>
+<span class="w">       </span><span class="nv">ind</span><span class="o">=</span><span class="k">$((</span><span class="nv">ind</span><span class="o">+</span><span class="m">1</span><span class="k">))</span>
+<span class="w">    </span><span class="k">done</span>
+
+<span class="w">    </span>bart<span class="w"> </span>join<span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="sb">`</span>seq<span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;_slice%g&quot;</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="k">$((</span><span class="nv">ind</span><span class="o">-</span><span class="m">1</span><span class="k">))</span><span class="sb">`</span><span class="w"> </span>_slices
+<span class="w">    </span>
+<span class="w">    </span><span class="nv">DIM</span><span class="o">=</span><span class="sb">`</span>bart<span class="w"> </span>show<span class="w"> </span>-d<span class="w"> </span><span class="m">0</span><span class="w"> </span>_slices<span class="sb">`</span>
+
+<span class="w">    </span>bart<span class="w"> </span>reshape<span class="w"> </span><span class="k">$(</span>bart<span class="w"> </span>bitmask<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">6</span><span class="k">)</span><span class="w"> </span><span class="k">$((</span><span class="nv">DIM</span><span class="o">*</span><span class="nv">ind</span><span class="k">))</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">{</span>_,<span class="o">}</span>slices
+
+<span class="w">    </span>imshow<span class="w"> </span>slices
+<span class="o">}</span>
+<span class="nb">export</span><span class="w"> </span>-f<span class="w"> </span>show_timesteps
+</pre></div>
+</div>
+</section>
+<section id="introduction">
+<h2>2. Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat<span class="w"> </span>IR_FLASH.png<span class="w"> </span><span class="p">|</span><span class="w"> </span>display<span class="w"> </span>
+</pre></div>
+</div>
+</section>
+<section id="simulations">
+<h2>3. Simulations<a class="headerlink" href="#simulations" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="simulate-the-inversion-prepared-radial-flash-raw-data-using-the-phantom-tool-in-bart">
+<h2>3.1 Simulate the inversion-prepared radial FLASH raw data using the phantom tool in BART<a class="headerlink" href="#simulate-the-inversion-prepared-radial-flash-raw-data-using-the-phantom-tool-in-bart" title="Permalink to this heading">#</a></h2>
+<p>Similar to the previous example,  we can create a numerical phantom with the inversion-prepared radial FLASH sequence</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define Sequence Parameters</span>
+<span class="nv">TR</span><span class="o">=</span><span class="m">0</span>.006<span class="w"> </span><span class="c1"># [s]</span>
+<span class="nv">DIM</span><span class="o">=</span><span class="m">384</span><span class="w"> </span><span class="c1"># Readouts</span>
+<span class="nv">SPOKES</span><span class="o">=</span><span class="m">1</span>
+<span class="nv">REP</span><span class="o">=</span><span class="m">700</span><span class="w"> </span><span class="c1"># Repetitions</span>
+<span class="nv">NC</span><span class="o">=</span><span class="m">8</span><span class="w"> </span><span class="c1"># Number of Coils</span>
+<span class="nv">BR</span><span class="o">=</span><span class="k">$((</span><span class="nv">DIM</span><span class="o">/</span><span class="m">2</span><span class="k">))</span><span class="w"> </span><span class="c1"># Base resolution, as DIM includes two-fold oversampling</span>
+
+<span class="c1"># create trajectory</span>
+bart<span class="w"> </span>traj<span class="w"> </span>-x<span class="w"> </span><span class="nv">$DIM</span><span class="w"> </span>-y<span class="w"> </span><span class="nv">$SPOKES</span><span class="w"> </span>-t<span class="w"> </span><span class="nv">$REP</span><span class="w"> </span>-c<span class="w"> </span>-r<span class="w"> </span>-G<span class="w"> </span>_traj
+bart<span class="w"> </span>transpose<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">10</span><span class="w"> </span>_traj<span class="w"> </span>traj
+bart<span class="w"> </span>scale<span class="w"> </span><span class="m">0</span>.5<span class="w"> </span>traj<span class="w"> </span>traj1
+
+<span class="c1"># check the dimensions of traj1</span>
+head<span class="w"> </span>-n2<span class="w"> </span>traj1.hdr
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># create geometry basis functions</span>
+bart<span class="w"> </span>phantom<span class="w"> </span>-s<span class="nv">$NC</span><span class="w"> </span>-T<span class="w"> </span>-k<span class="w"> </span>-b<span class="w"> </span>-t<span class="w"> </span>traj1<span class="w"> </span>_basis_geom
+
+<span class="c1"># check the dimensions</span>
+head<span class="w"> </span>-n2<span class="w"> </span>_basis_geom.hdr
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># create signal basis functions</span>
+bart<span class="w"> </span>signal<span class="w"> </span>-F<span class="w"> </span>-I<span class="w"> </span>-n<span class="nv">$REP</span><span class="w"> </span>-r<span class="nv">$TR</span><span class="w">  </span>-1<span class="w"> </span><span class="m">0</span>.2:2.2:10<span class="w"> </span>-2<span class="w"> </span><span class="m">0</span>.045:0.045:1<span class="w"> </span>_basis_simu_tubes
+bart<span class="w"> </span>signal<span class="w"> </span>-F<span class="w"> </span>-I<span class="w"> </span>-n<span class="nv">$REP</span><span class="w"> </span>-r<span class="nv">$TR</span><span class="w">  </span>-1<span class="w"> </span><span class="m">3</span>:3:1<span class="w"> </span>-2<span class="w"> </span><span class="m">1</span>:1:1<span class="w"> </span>_basis_simu_water
+
+<span class="c1"># flags:</span>
+<span class="c1">#        -F FLASH</span>
+<span class="c1">#        -I Inversion recovery</span>
+<span class="c1">#        -n Number of RF excitations</span>
+<span class="c1">#        -r TR (in second)</span>
+<span class="c1">#        -1 Range for T1</span>
+<span class="c1">#        -2 Range for T2</span>
+
+bart<span class="w"> </span>join<span class="w"> </span><span class="m">6</span><span class="w"> </span>_basis_simu_water<span class="w"> </span>_basis_simu_tubes<span class="w"> </span>_basis_simu
+
+<span class="c1"># check the dimensions</span>
+head<span class="w"> </span>-n2<span class="w"> </span>_basis_simu.hdr
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># create simulated dataset</span>
+bart<span class="w"> </span>fmac<span class="w"> </span>-s<span class="w"> </span><span class="k">$(</span>bart<span class="w"> </span>bitmask<span class="w"> </span><span class="m">6</span><span class="k">)</span><span class="w"> </span>_basis_geom<span class="w"> </span>_basis_simu<span class="w"> </span>phantom_ksp
+
+<span class="c1"># check the dimensions of phantom_ksp</span>
+head<span class="w"> </span>-n2<span class="w"> </span>phantom_ksp.hdr
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># add noise to the simulated dataset </span>
+bart<span class="w"> </span>noise<span class="w"> </span>-n1<span class="w"> </span>phantom_ksp<span class="w"> </span>phantom_ksp_noisy
+
+<span class="c1"># generate a roi mask for later use</span>
+bart<span class="w"> </span>phantom<span class="w"> </span>-x<span class="nv">$BR</span><span class="w"> </span>-T<span class="w"> </span>roi_mask<span class="w"> </span>
+</pre></div>
+</div>
+<section id="coil-sensitivity-estimation-using-the-steady-state-data-by-espirit">
+<h3>3.2 Coil sensitivity estimation using the steady-state data by ESPiRIT<a class="headerlink" href="#coil-sensitivity-estimation-using-the-steady-state-data-by-espirit" title="Permalink to this heading">#</a></h3>
+<p>Due to the contrast and phase change in the beginning of inversion, here we use the steady-state data to estimate the coil sensitivities.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># set to false to perform actual computation</span>
+
+<span class="k">if</span><span class="w"> </span>true<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>bart<span class="w"> </span>copy<span class="w"> </span>ref/sens_precomp<span class="w"> </span>sens
+<span class="k">else</span>
+<span class="w">    </span><span class="c1"># extract the steady-state data</span>
+<span class="w">    </span><span class="nv">nstate</span><span class="o">=</span><span class="m">300</span>
+<span class="w">    </span>bart<span class="w"> </span>extract<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="k">$((</span><span class="nv">REP</span><span class="o">-</span><span class="nv">nstate</span><span class="k">))</span><span class="w"> </span><span class="nv">$REP</span><span class="w"> </span>traj<span class="w"> </span>traj_state
+<span class="w">    </span>bart<span class="w"> </span>extract<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="k">$((</span><span class="nv">REP</span><span class="o">-</span><span class="nv">nstate</span><span class="k">))</span><span class="w"> </span><span class="nv">$REP</span><span class="w"> </span>phantom_ksp_noisy<span class="w"> </span>phantom_ksp_state
+<span class="w">    </span>bart<span class="w"> </span>transpose<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">5</span><span class="w"> </span>traj_state<span class="w"> </span>traj_state1
+<span class="w">    </span>bart<span class="w"> </span>transpose<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">5</span><span class="w"> </span>phantom_ksp_state<span class="w"> </span>phantom_ksp_state1
+
+<span class="w">    </span><span class="c1"># apply inverse nufft </span>
+<span class="w">    </span>bart<span class="w"> </span>nufft<span class="w"> </span>-i<span class="w"> </span>-d<span class="nv">$DIM</span>:<span class="nv">$DIM</span>:1<span class="w"> </span>traj_state1<span class="w"> </span>phantom_ksp_state1<span class="w"> </span>img
+<span class="w">    </span>
+<span class="w">    </span><span class="c1"># transform back to k-space and compute sensitivities</span>
+<span class="w">    </span>bart<span class="w"> </span>fft<span class="w"> </span>-u<span class="w"> </span><span class="k">$(</span>bart<span class="w"> </span>bitmask<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">2</span><span class="k">)</span><span class="w"> </span>img<span class="w"> </span>ksp
+
+<span class="w">    </span><span class="c1"># transpose because we already support off-center calibration region</span>
+<span class="w">    </span><span class="c1"># in dim 0 but here we might have it in 2</span>
+<span class="w">    </span>bart<span class="w"> </span>ecalib<span class="w"> </span>-S<span class="w"> </span>-t0.01<span class="w"> </span>-m1<span class="w"> </span>ksp<span class="w"> </span>sens
+<span class="k">fi</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="linear-subspace-reconstruction">
+<h2>3.3 Linear subspace reconstruction<a class="headerlink" href="#linear-subspace-reconstruction" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="generate-the-dictionary-perform-svd-and-create-the-temporal-basis">
+<h2>3.3.1 Generate the dictionary, perform SVD and create the temporal basis<a class="headerlink" href="#generate-the-dictionary-perform-svd-and-create-the-temporal-basis" title="Permalink to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate the dictionary, perform SVD and</span>
+<span class="c1"># Mss - (Mss + M0) * exp(-t * R1s)</span>
+<span class="nv">nR1s</span><span class="o">=</span><span class="m">1000</span>
+<span class="nv">nMss</span><span class="o">=</span><span class="m">100</span><span class="w"> </span>
+bart<span class="w"> </span>signal<span class="w"> </span>-F<span class="w"> </span>-I<span class="w"> </span>-n<span class="nv">$REP</span><span class="w"> </span>-r<span class="nv">$TR</span><span class="w"> </span>-1<span class="w"> </span>5e-3:5:<span class="nv">$nR1s</span><span class="w"> </span>-3<span class="w"> </span>1e-2:1:<span class="nv">$nMss</span><span class="w"> </span>dicc
+
+<span class="c1"># flags:</span>
+<span class="c1">#        -F FLASH</span>
+<span class="c1">#        -I Inversion recovery</span>
+<span class="c1">#        -n Number of RF excitations</span>
+<span class="c1">#        -r TR (in second)</span>
+<span class="c1">#        -1 Range for R1*: (5e-3, 5) [1/s]</span>
+<span class="c1">#        -3 Range for Mss: (1e-2, 1) * M0</span>
+
+<span class="c1"># reshape the dicc to have all the elements on the 6th dimension</span>
+bart<span class="w"> </span>reshape<span class="w"> </span><span class="k">$(</span>bart<span class="w"> </span>bitmask<span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="m">7</span><span class="k">)</span><span class="w"> </span><span class="k">$((</span><span class="nv">nR1s</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nv">nMss</span><span class="k">))</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>dicc<span class="w"> </span>dicc1
+head<span class="w"> </span>-n2<span class="w"> </span>dicc1.hdr
+<span class="c1"># squeeze the dicc1 before SVD</span>
+bart<span class="w"> </span>squeeze<span class="w"> </span>dicc1<span class="w"> </span>dicc2
+head<span class="w"> </span>-n2<span class="w"> </span>dicc2.hdr
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># perform svd, S is the eigenvalue vector, while U contains the temporal basis</span>
+bart<span class="w"> </span>svd<span class="w"> </span>-e<span class="w"> </span>dicc2<span class="w"> </span>U<span class="w"> </span>S<span class="w"> </span>V
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span>true<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>python3<span class="w"> </span>python/plot_subspace_T1.py
+<span class="k">fi</span>
+cat<span class="w"> </span>Subspace_T1.png<span class="w"> </span><span class="p">|</span><span class="w"> </span>display<span class="w"> </span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># create the temporal basis</span>
+<span class="nv">nCoe</span><span class="o">=</span><span class="m">4</span><span class="w"> </span><span class="c1"># use 4 coefficients</span>
+bart<span class="w"> </span>extract<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="nv">$nCoe</span><span class="w"> </span>U<span class="w"> </span>basis
+<span class="c1"># transpose the basis to have time on the 6th dimension and coefficients on the 5th dimension</span>
+bart<span class="w"> </span>transpose<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">6</span><span class="w"> </span>basis<span class="w"> </span>basis1
+bart<span class="w"> </span>transpose<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">5</span><span class="w"> </span>basis1<span class="w"> </span>basis_<span class="si">${</span><span class="nv">nCoe</span><span class="si">}</span>
+head<span class="w"> </span>-n2<span class="w"> </span>basis_<span class="si">${</span><span class="nv">nCoe</span><span class="si">}</span>.hdr
+</pre></div>
+</div>
+</section>
+<section id="perform-subspace-constrained-reconstruction-with-joint-l1-wavelet-constraints-on-the-coefficient-maps">
+<h2>3.3.2 Perform subspace-constrained reconstruction with joint l1-Wavelet constraints on the coefficient maps<a class="headerlink" href="#perform-subspace-constrained-reconstruction-with-joint-l1-wavelet-constraints-on-the-coefficient-maps" title="Permalink to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">ITER</span><span class="o">=</span><span class="m">100</span>
+<span class="nv">REG</span><span class="o">=</span><span class="m">0</span>.0005
+
+<span class="c1"># set to false to perform actual computation</span>
+<span class="k">if</span><span class="w"> </span>true<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>bart<span class="w"> </span>copy<span class="w"> </span>ref/subspace_reco_precomp<span class="w"> </span>subspace_reco
+<span class="k">else</span>
+<span class="w">    </span><span class="c1"># reconstruction with subspace constraint</span>
+<span class="w">    </span>bart<span class="w"> </span>pics<span class="w"> </span>-e<span class="w"> </span>-d5<span class="w"> </span>-i<span class="nv">$ITER</span><span class="w"> </span><span class="se">\</span>
+<span class="w">              </span>-RW:<span class="k">$(</span>bart<span class="w"> </span>bitmask<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">1</span><span class="k">)</span>:<span class="k">$(</span>bart<span class="w"> </span>bitmask<span class="w"> </span><span class="m">6</span><span class="k">)</span>:<span class="nv">$REG</span><span class="w"> </span><span class="se">\</span>
+<span class="w">              </span>-B<span class="w"> </span>basis_<span class="si">${</span><span class="nv">nCoe</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+<span class="w">              </span>-t<span class="w"> </span>traj<span class="w"> </span>phantom_ksp_noisy<span class="w"> </span>sens<span class="w"> </span>subspace_reco
+<span class="k">fi</span>
+
+<span class="c1"># flags:</span>
+<span class="c1">#        -d debug level</span>
+<span class="c1">#        -e scale stepsize based on maximal eigenvalue</span>
+<span class="c1">#        -R W:3:3:64 joint l1-Wavelet regularization with spatial decimation</span>
+
+<span class="c1"># resize the coefficient maps to the original size and multiply it with the roi_mask</span>
+bart<span class="w"> </span>resize<span class="w"> </span>-c<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="nv">$BR</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="nv">$BR</span><span class="w"> </span>subspace_reco<span class="w"> </span>tmp
+bart<span class="w"> </span>fmac<span class="w"> </span>roi_mask<span class="w"> </span>tmp<span class="w"> </span>tmp_masked
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># reshape the resutls for display</span>
+bart<span class="w"> </span>reshape<span class="w"> </span><span class="k">$(</span>bart<span class="w"> </span>bitmask<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">6</span><span class="k">)</span><span class="w"> </span><span class="k">$((</span><span class="nv">BR</span><span class="o">*</span><span class="nv">nCoe</span><span class="k">))</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>tmp_masked<span class="w"> </span>subspace_maps
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>imshow<span class="w"> </span>subspace_maps
+</pre></div>
+</div>
+</section>
+<section id="project-the-reconstructed-coefficient-maps-to-images-and-perform-pixel-wise-fitting-to-obtain-t1-map">
+<h2>3.3.3 Project the reconstructed coefficient maps to images and perform pixel-wise fitting to obtain T1 map<a class="headerlink" href="#project-the-reconstructed-coefficient-maps-to-images-and-perform-pixel-wise-fitting-to-obtain-t1-map" title="Permalink to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># multiply the basis with the subspace coefficient maps to obtain the projected images</span>
+bart<span class="w"> </span>fmac<span class="w"> </span>-s<span class="w"> </span><span class="k">$(</span>bart<span class="w"> </span>bitmask<span class="w"> </span><span class="m">6</span><span class="k">)</span><span class="w"> </span>basis_<span class="si">${</span><span class="nv">nCoe</span><span class="si">}</span><span class="w"> </span>tmp_masked<span class="w"> </span>imgs
+<span class="c1"># and show representative T1-weighted images</span>
+<span class="nv">t</span><span class="o">=(</span><span class="w"> </span><span class="m">0</span>,<span class="w"> </span><span class="m">50</span>,<span class="w"> </span><span class="m">100</span>,<span class="w"> </span><span class="m">200</span>,<span class="w"> </span><span class="m">600</span><span class="w"> </span><span class="o">)</span>
+
+show_timesteps<span class="w"> </span>imgs<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">t</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p>Thank you for your participation! Feel free to ask any questions:)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">1. Prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">2. Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulations">3. Simulations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulate-the-inversion-prepared-radial-flash-raw-data-using-the-phantom-tool-in-bart">3.1 Simulate the inversion-prepared radial FLASH raw data using the phantom tool in BART</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#coil-sensitivity-estimation-using-the-steady-state-data-by-espirit">3.2 Coil sensitivity estimation using the steady-state data by ESPiRIT</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-subspace-reconstruction">3.3 Linear subspace reconstruction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-the-dictionary-perform-svd-and-create-the-temporal-basis">3.3.1 Generate the dictionary, perform SVD and create the temporal basis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perform-subspace-constrained-reconstruction-with-joint-l1-wavelet-constraints-on-the-coefficient-maps">3.3.2 Perform subspace-constrained reconstruction with joint l1-Wavelet constraints on the coefficient maps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#project-the-reconstructed-coefficient-maps-to-images-and-perform-pixel-wise-fitting-to-obtain-t1-map">3.3.3 Project the reconstructed coefficient maps to images and perform pixel-wise fitting to obtain T1 map</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

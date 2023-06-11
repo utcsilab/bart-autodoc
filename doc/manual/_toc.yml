@@ -1,0 +1,20 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: index
+chapters:
+- file: intro
+- file: install
+- file: data
+- file: interface
+- file: tools
+- file: viewer
+- file: api
+  sections:
+  - file: iter
+  - file: linops
+  - file: prox
+- file: impl
+- file: utest
+
