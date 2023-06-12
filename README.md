@@ -1,6 +1,6 @@
 # BART Autodoc 
 
-# Convert Jupyter Notebooks and Markdown Files (By Ashwin Ram)
+# Convert Jupyter Notebooks and Markdown Files 
 
 This is a bash script that converts a Markdown file to Jupyter Notebook (.ipynb) format. It utilizes the `jupytext` tool for the conversion.
 
