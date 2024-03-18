@@ -29,6 +29,11 @@ pip install -r requirements.txt
 ```
 This command will install all the required packages listed in the requirements.txt file. Once you have installed the required packages, you can run the script by executing the following command:
 
+Also need the bash kernel
+```bash
+python -m bash_kernel.install
+```
+
 Run the script with the input Markdown file as an argument. The script will convert the Markdown file to Jupyter Notebook format and generate a corresponding `.ipynb` file.
 
 ```bash
