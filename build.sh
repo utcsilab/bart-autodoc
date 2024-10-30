@@ -9,3 +9,8 @@ echo "...Done!"
 echo "Building manual:"
 jupyter-book build  doc/manual
 echo "...Done!"
+
+echo "Remove temporary files:"
+rm doc/manual/*.cfl
+rm doc/manual/*.hdr
+echo "...Done!"
