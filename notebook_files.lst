@@ -1,2 +1,8 @@
-doc/notebooks/hello
-doc/notebooks/goodbye
+doc/markdown/hello
+doc/markdown/goodbye
+bart_documentation/avg
+bart_documentation/rss
+bart_documentation/vec
+bart_documentation/show
+bart_documentation/ones
+bart_documentation/reshape
