@@ -9,6 +9,12 @@ chapters:
 - file: data
 - file: interface
 - file: tools
+  sections:
+  - file: reshape
+  - file: ones
+  - file: avg
+  - file: rss
+  - file: vec
 - file: viewer
 - file: api
   sections:
