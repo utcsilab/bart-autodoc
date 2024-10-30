@@ -170,7 +170,7 @@ for i in range(8):
 ```
 
 ```python
-avg_image = bart(1, 'avg 8 multi_coil_image') # Calculates the avg across coil dimension and named as avg_image
+avg_image = bart(1, 'avg 8', multi_coil_image) # Calculates the avg across coil dimension and named as avg_image
 ```
 
 ```python
