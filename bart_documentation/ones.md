@@ -22,12 +22,14 @@ The command `bart ones` is used in BART to create an array **filled with ones**.
 ## Such as:
 
 
-\begin{pmatrix}
-1 & 1 & ... & 1 \\
-1 & 1 & ... & 1 \\
-... & ... & ... & ...\\
-1 & 1 & ... & 1
+$$ 
+\begin{pmatrix} 
+1 & 1 & \cdots & 1 \\ 
+1 & 1 & \cdots & 1 \\ 
+\vdots & \vdots & \ddots & \vdots \\ 
+1 & 1 & \cdots & 1 
 \end{pmatrix}
+$$
 
 
 We can use `-h` for every BART command.
