@@ -15,6 +15,7 @@ chapters:
   - file: avg
   - file: rss
   - file: vec
+  - file: bitmask
 - file: viewer
 - file: api
   sections:
