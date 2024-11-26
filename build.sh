@@ -6,11 +6,11 @@ cat notebook_files.lst | xargs -I {} mv {}.ipynb doc/manual/
 echo "...Done!"
 
 echo "Building manual:"
-jupyter-book clean doc/manual
+#jupyter-book clean doc/manual
 jupyter-book build  doc/manual
 echo "...Done!"
 
-echo "Remove temporary files:"
+echo "Remove temporary bart files:"
 rm doc/manual/*.cfl
 rm doc/manual/*.hdr
 echo "...Done!"
