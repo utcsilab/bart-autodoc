@@ -2,3 +2,4 @@ manual/_build/
 *.swp
 .ipynb_checkpoints
 bart_documentation/*.ipynb
+default.profraw
