@@ -64,7 +64,7 @@ wavelet = bart(1, 'cdf97 3', phantom_image)
 ```python
 # Visualizing the image using Matplotlib
 plt.figure(figsize=(4,6))
-plt.imshow(abs(wavelet), cmap='gray')
+plt.imshow(abs(wavelet)**.3, cmap='gray')
 plt.title('Wavelet')
 ```
 
