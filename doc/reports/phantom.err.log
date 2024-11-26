@@ -1,0 +1,43 @@
+Traceback (most recent call last):
+  File "/Users/jon/miniconda3/envs/pytorch/lib/python3.12/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/Users/jon/miniconda3/envs/pytorch/lib/python3.12/site-packages/nbclient/client.py", line 1314, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jon/miniconda3/envs/pytorch/lib/python3.12/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jon/miniconda3/envs/pytorch/lib/python3.12/asyncio/base_events.py", line 687, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/jon/miniconda3/envs/pytorch/lib/python3.12/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/Users/jon/miniconda3/envs/pytorch/lib/python3.12/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/Users/jon/miniconda3/envs/pytorch/lib/python3.12/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# Visualizing the inverse NUFFT using Matplotlib
+traj_phantom_img = bart(1, 'nufft -i', traj, traj_phantom_ksp)
+plt.figure(figsize=(4,6))
+plt.imshow(np.abs(traj_phantom_img), cmap='gray')
+plt.title('Phantom (image domain)')
+------------------
+
+----- stdout -----
+Assertion failed: (1 == ksp_dims[0]), function main_nufft, file nufft.c, line 157.
+
+Command exited with error code -6.
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mTypeError[0m                                 Traceback (most recent call last)
+Cell [0;32mIn[24], line 4[0m
+[1;32m      2[0m traj_phantom_img [38;5;241m=[39m bart([38;5;241m1[39m, [38;5;124m'[39m[38;5;124mnufft -i[39m[38;5;124m'[39m, traj, traj_phantom_ksp)
+[1;32m      3[0m plt[38;5;241m.[39mfigure(figsize[38;5;241m=[39m([38;5;241m4[39m,[38;5;241m6[39m))
+[0;32m----> 4[0m plt[38;5;241m.[39mimshow([43mnp[49m[38;5;241;43m.[39;49m[43mabs[49m[43m([49m[43mtraj_phantom_img[49m[43m)[49m, cmap[38;5;241m=[39m[38;5;124m'[39m[38;5;124mgray[39m[38;5;124m'[39m)
+[1;32m      5[0m plt[38;5;241m.[39mtitle([38;5;124m'[39m[38;5;124mPhantom (image domain)[39m[38;5;124m'[39m)
+
+[0;31mTypeError[0m: bad operand type for abs(): 'NoneType'
+
