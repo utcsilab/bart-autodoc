@@ -16,6 +16,12 @@ chapters:
   - file: rss
   - file: vec
   - file: bitmask
+  - file: caldir
+  - file: cdf97
+  - file: flatten
+  - file: phantom
+  - file: squeeze
+  - file: zeros
 - file: viewer
 - file: api
   sections:
