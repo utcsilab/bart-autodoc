@@ -1,2 +1,4 @@
 doc/manual/_build/
 *.swp
+.ipynb_checkpoints
+bart_documentation/*.ipynb
