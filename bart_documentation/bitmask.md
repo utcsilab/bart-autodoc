@@ -69,3 +69,31 @@ Use the `bart bitmask` command with the `-b` flag
 ```python
 !bart bitmask -b 18 # Outputs demensions with a bitmask '18'
 ```
+
+### Example 4: Using the output of bitmask directly with another tool
+It is often useful to pass the output of the bitmask tool directly to another tool in bash. This can be done for example,
+to pass the dimensions for FFT without precomputing the corresponding bitmask:
+
+```python
+!bart phantom -x 128 -k ksp # create a phantom in kspace
+!bart show -m ksp
+!bart fft -iu $(bart bitmask 0 1) ksp img # perform IFFT along dimensions 0 and 1
+```
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+import cfl
+%matplotlib inline
+
+ksp = cfl.readcfl('ksp')
+img = cfl.readcfl('img')
+
+plt.figure(figsize=(4,6))
+plt.imshow(abs(ksp)**.3, cmap='gray')
+plt.title('phantom (in k-space)')
+
+plt.figure(figsize=(4,6))
+plt.imshow(abs(img), cmap='gray')
+plt.title('phantom (in image domain')
+```
