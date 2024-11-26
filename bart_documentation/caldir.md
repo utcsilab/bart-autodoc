@@ -16,7 +16,9 @@ jupyter:
 
 ============================================================================================================
 
-The `bart caldir` command in **BART** is used to estimate coil sensitivities from the k-space center of MRI data, which is generally a fully sampled area of the MRI data. This method is based on the approach by McKenzie et al., which uses a direct estimation technique to determine coil sensitivity profiles. The calibration region’s size is automatically determined but limited by the {cal_size} parameter specified by the user.
+The `bart caldir` command in **BART** is used to estimate coil sensitivities from the k-space center of MRI data, which is generally a fully sampled area of the MRI data. This method is based on the approach by McKenzie et al. [1], which uses a direct estimation technique to determine coil sensitivity profiles. The calibration region’s size is automatically determined but limited by the {cal_size} parameter specified by the user.
+
+[1] McKenzie CA, Yeh EN, Ohliger MA, Price MD, Sodickson DK.  Self-calibrating parallel imaging with automatic coil sensitivity extraction.  Magn Reson Med 2002; 47:529-538.
 
 Where we can view the full usage string and optional arguments with the `-h` flag.
 
@@ -50,22 +52,22 @@ from bart import bart
 ### Generate a multi-coil image in k-space using the `phantom` simulation tool 
 
 ```python
-multi_coil_image = bart(1, 'phantom -x 128 -k -s 8')
+multi_coil_kspace = bart(1, 'phantom -x 128 -k -s 8')
 ```
 
 ```python
-# Visualizing the multi-coil images using Matplotlib 
+# Visualizing the multi-coil kspace data using Matplotlib 
 plt.figure(figsize=(16,20))
 for i in range(8):
     plt.subplot(1, 8, i+1)
-    plt.imshow(abs(multi_coil_image[...,i]), cmap='gray')
-    plt.title('Coil image {}'.format(i))
+    plt.imshow(abs(multi_coil_kspace[...,i])**.3, cmap='gray')
+    plt.title('Kspace channel {}'.format(i))
 ```
 
-### Estimated the coil sensitivity by using `caldir` with "cal_size = 6"
+### Estimated the coil sensitivity by using `caldir` with `cal_size = 6`
 
 ```python
-coil_sen = bart(1, 'caldir 6', multi_coil_image)
+coil_sen = bart(1, 'caldir 6', multi_coil_kspace)
 ```
 
 ```python
@@ -83,7 +85,7 @@ for i in range(8):
 ### Estimated the coil sensitivity by using `caldir` with "cal_size = 24"
 
 ```python
-coil_sen_1 = bart(1, 'caldir 24', multi_coil_image)
+coil_sen_1 = bart(1, 'caldir 24', multi_coil_kspace)
 ```
 
 ```python
