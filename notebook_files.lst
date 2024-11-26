@@ -5,3 +5,9 @@ bart_documentation/show
 bart_documentation/ones
 bart_documentation/reshape
 bart_documentation/bitmask
+bart_documentation/caldir
+bart_documentation/cdf97
+bart_documentation/flatten
+bart_documentation/phantom
+bart_documentation/squeeze
+bart_documentation/zeros
