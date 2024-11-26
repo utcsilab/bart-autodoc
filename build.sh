@@ -14,7 +14,3 @@ echo "Remove temporary bart files:"
 rm -f manual/*.cfl
 rm -f manual/*.hdr
 echo "...Done!"
-
-echo "Sync html pages:"
-rsync -av manual/_build/html/* doc/
-echo "...Done!"
