@@ -63,7 +63,7 @@ phantom_k = bart(1, 'phantom -x 128 -k') # Generate a phantom image in k-space w
 ```python
 # Visualizing the image using Matplotlib
 plt.figure(figsize=(4,6))
-plt.imshow(abs(phantom_k), cmap='gray')
+plt.imshow(abs(phantom_k)**.3, cmap='gray')
 plt.title('phantom_k')
 ```
 
@@ -82,6 +82,20 @@ for i in range(8):
     plt.subplot(1, 8, i+1)
     plt.imshow(abs(multi_coil_image[...,i]), cmap='gray')
     plt.title('Coil image {}'.format(i))
+```
+
+### Output the sensitivity maps directly with `-S`.
+```python
+sens_maps = bart(1, 'phantom -x 128 -S 8') # Generate the maps corresponding to a multi-coil image with size 128x128 and 8 coils 
+```
+
+```python
+# Visualizing the multi-coil images using Matplotlib 
+plt.figure(figsize=(16,20))
+for i in range(8):
+    plt.subplot(1, 8, i+1)
+    plt.imshow(abs(sens_maps[...,i]), cmap='gray')
+    plt.title('Coil sensitivity map {}'.format(i))
 ```
 
 ## Example 4: Generate a geometric object phantom using the `phantom` simulation tool in BART
@@ -113,6 +127,8 @@ We can substitude `-G` by `-T`, `--NIST`, `--SANAR`, `--BRAIN`...
 | `-N num`                      | Creates random tubes phantom with `num` tubes |
 | `-B`                          | Generates the BART logo |
 <!-- #endregion -->
+
+These commands can also be used with `-s`, `-k`, etc.
 
 ## Example 5: Creating an Ellipsoid Phantom
 
@@ -194,20 +210,28 @@ plt.title('Ellipsoid')
 ### Generates a radial k-space trajectory
 
 ```python
-traj = bart(1, 'traj -r')
+traj = bart(1, 'traj -r -x 128 -y 128')
 ```
 
 ### Creates a simulated k-space dataset for a phantom image by the trajectory that we created
 
 ```python
-traj_phantom = bart(1, 'phantom -x 128 -k -t', traj).squeeze()
+traj_phantom_ksp = bart(1, 'phantom -k -t', traj)
 ```
 
 ```python
 # Visualizing the image using Matplotlib
 plt.figure(figsize=(4,6))
-plt.imshow(np.abs(traj_phantom), cmap='gray')
-plt.title('Trajectory_phantom')
+plt.imshow(np.abs(traj_phantom_ksp.squeeze())**.3, cmap='gray')
+plt.title('non-Cartesian sampled phantom (in k-space)')
+```
+
+```python
+# Visualizing the inverse NUFFT using Matplotlib
+traj_phantom_img = bart(1, 'nufft -i', traj, traj_phantom_ksp)
+plt.figure(figsize=(4,6))
+plt.imshow(np.abs(traj_phantom_img), cmap='gray')
+plt.title('Phantom (image domain)')
 ```
 
 ## Example 7: Generate Tube phantom image by basis functions of geometry using the `phantom` simulation tool in BART
