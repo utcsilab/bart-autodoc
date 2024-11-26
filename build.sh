@@ -11,6 +11,6 @@ jupyter-book build  doc/manual
 echo "...Done!"
 
 echo "Remove temporary bart files:"
-rm doc/manual/*.cfl
-rm doc/manual/*.hdr
+rm -f doc/manual/*.cfl
+rm -f doc/manual/*.hdr
 echo "...Done!"
