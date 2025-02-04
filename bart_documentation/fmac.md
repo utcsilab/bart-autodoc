@@ -71,7 +71,7 @@ plt.figure(figsize=(16,20))
 for i in range(8):
     plt.subplot(1, 8, i+1)
     plt.imshow(abs(sens[...,i]), cmap='gray')
-    plt.title('sens {}'.format(i))
+    plt.title('Sensitivity {}'.format(i))
 ```
 
 ### Example 1: Use `bart fmac` to apply sensitivity maps to the phantom k-space:
