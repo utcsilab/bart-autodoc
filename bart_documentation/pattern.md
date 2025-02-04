@@ -41,11 +41,13 @@ Where we can view the full usage string and optional arguments with the `-h` fla
 ## Example Workflow (python)
 
 ```python
+# Importing the required libraries
 import numpy as np
 import matplotlib.pyplot as plt
-from bart import bart
-import h5py
 %matplotlib inline
+
+import cfl
+from bart import bart
 ```
 
 ### 1. Generate a Fully Sampled k-Space Phantom Directly
