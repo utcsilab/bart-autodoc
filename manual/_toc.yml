@@ -22,6 +22,8 @@ chapters:
   - file: phantom
   - file: squeeze
   - file: zeros
+  - file: fmac
+  - file: pattern
 - file: viewer
 - file: api
   sections:
