@@ -24,6 +24,200 @@ Where we can view the full usage string and optional arguments with the `-h` fla
 !bart fmac -h
 ```
 
+## How `bart fmac` work
+
+
+### Element-wise Multiplication
+
+When both input tensors **A** and **B** have the same dimensions, `fmac` performs **element-wise multiplication**:
+
+$$
+O_{m,n} = A_{m,n} \cdot B_{m,n}
+$$
+
+### Example:
+Given two matrices:
+
+$$
+A = \begin{bmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{bmatrix}, \quad
+B = \begin{bmatrix} b_{11} & b_{12} \\ b_{21} & b_{22} \end{bmatrix}
+$$
+
+The element-wise multiplication produces:
+
+$$
+O = A \circ B = \begin{bmatrix} a_{11} \cdot b_{11} & a_{12} \cdot b_{12} \\ a_{21} \cdot b_{21} & a_{22} \cdot b_{22} \end{bmatrix}
+$$
+
+
+
+## Example for Matrix (using Bash)
+
+
+### Create a Matrix (A), Dimension as 2 x 2 x 2
+
+```python
+!bart vec $(seq 1 8) array_A # Generate a array with values from 1 to 8 
+```
+
+```python
+!bart reshape $(bart bitmask 0 1 2) 2 2 2 array_A matrix_A # Reshape the array to Dimension as 2 x 2 x 2
+```
+
+```python
+!bart show matrix_A
+```
+
+### Create a Matrix (B), Dimension as 2 x 2 x 2
+
+```python
+!bart vec $(seq 2 9) array_B # Generate a array with values from 2 to 9 
+```
+
+```python
+!bart reshape $(bart bitmask 0 1 2) 2 2 2 array_B matrix_B # Reshape the array to Dimension as 2 x 2 x 2
+```
+
+```python
+!bart show matrix_B
+```
+
+### Example 1.1:
+
+Performs element-wise multiplication of `matrix_A` and `matrix_B` and stores the result in `matrix_output`
+
+```python
+!bart fmac matrix_A matrix_B matrix_output
+```
+
+```python
+!bart show matrix_output
+```
+
+## `-A`: Adds the computed result to an existing output file instead of overwriting it
+
+
+### Mathematical Representation
+
+Without `-A`:
+
+$$
+O = A \cdot B
+$$
+
+With `-A`:
+
+$$
+O = O_{\text{existing}} + (A \cdot B)
+$$
+
+where the previous values in $O_{\text{existing}}$ are updated by adding the new computation.
+
+
+
+### Example 1.2:
+
+Performs element-wise multiplication of `matrix_A` and `matrix_B`, and then adds the result to `matrix_output` for Example 1.1 instead of overwriting it.
+
+
+```python
+!bart fmac -A matrix_A matrix_B matrix_output
+```
+
+```python
+!bart show matrix_output
+```
+
+## `-C`: Takes the *complex conjugate* of the second input (input2) before performing the element-wise multiplication.
+
+
+Given two matrices:
+
+$$
+A = \begin{bmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{bmatrix}, \quad
+B = \begin{bmatrix} b_{11} & b_{12} \\ b_{21} & b_{22} \end{bmatrix}
+$$
+
+The element-wise multiplication produces:
+
+$$
+O = A \circ B = \begin{bmatrix} a_{11} \cdot b_{11} & a_{12} \cdot b_{12} \\ a_{21} \cdot b_{21} & a_{22} \cdot b_{22} \end{bmatrix}
+$$
+
+### Using `-C` for Complex Conjugation
+
+When using the `-C` option, the second input matrix **B** is conjugated before multiplication:
+
+$$
+O = A \cdot B^*
+$$
+
+where the complex conjugate of $B$ is:
+
+$$
+B^* = \begin{bmatrix} \overline{b_{11}} & \overline{b_{12}} \\ \overline{b_{21}} & \overline{b_{22}} \end{bmatrix}
+$$
+
+
+
+### Example 1.3:
+
+Performs element-wise multiplication of `matrix_A` with the **complex conjugate** of `matrix_C`, and stores the result in `matrix_output_conjugate`.
+
+```python
+!bart vec 1+1i 2+2i matrix_C # Generate a matrix with Dimension as 2 x 1
+```
+
+```python
+!bart show matrix_C
+```
+
+```python
+!bart fmac -C matrix_A matrix_C matrix_output_conjugate
+```
+
+```python
+!bart show matrix_output_conjugate
+```
+
+```python
+!bart show -m matrix_output_conjugate
+```
+
+**Note**: As the example showing, if the dimensions of `matrix_A` and `matrix_C` do not match, BART will repeat the elements of `matrix_C` along the mismatched dimension to match `matrix_A`. As shown in the example, the `matrix_C` (2×1) is repeated to perform element-wise multiplication with `matrix_A`.
+
+
+## `-s b`: Squashes dimensions (summed along the dimensions) specified by the bitmask b after performing element-wise multiplication.
+
+
+### Example 1.4:
+
+Performs element-wise multiplication and sums over the first dimension.
+
+```python
+!bart fmac -s 1 matrix_A matrix_B matrix_output_squash1
+```
+
+```python
+!bart show matrix_output
+```
+
+```python
+!bart show matrix_output_squash1
+```
+
+### Example 1.5:
+
+Performs element-wise multiplication and sums over the all the dimensions.
+
+```python
+!bart fmac -s 7 matrix_A matrix_B matrix_output_squash2
+```
+
+```python
+!bart show matrix_output_squash2
+```
+
 ## Example Workflow (python)
 
 ```python
