@@ -24,6 +24,7 @@ chapters:
   - file: zeros
   - file: fmac
   - file: pattern
+  - file: poisson
 - file: viewer
 - file: api
   sections:
