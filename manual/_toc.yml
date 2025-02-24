@@ -25,6 +25,7 @@ chapters:
   - file: fmac
   - file: pattern
   - file: poisson
+  - file: homodyne
 - file: viewer
 - file: api
   sections:
