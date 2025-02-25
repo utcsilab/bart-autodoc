@@ -26,6 +26,7 @@ chapters:
   - file: pattern
   - file: poisson
   - file: homodyne
+  - file: fft
 - file: viewer
 - file: api
   sections:
