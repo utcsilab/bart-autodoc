@@ -134,7 +134,7 @@ $$
 ### Example 2: Performs a unitary Fast Fourier Transform (FFT) along the first dimension of the vector and stores the output in `X_fft_u`
 
 ```python
-!bart fft 1 -u x X_fft_u
+!bart fft -u 1 x X_fft_u
 ```
 
 ```python
@@ -144,7 +144,7 @@ $$
 ### Example 3: Performs a uncentered FFT along the first dimension of the vector and stores the output in `X_fft_n`
 
 ```python
-!bart fft 1 -n x X_fft_n
+!bart fft -n 1 x X_fft_n
 ```
 
 ```python
