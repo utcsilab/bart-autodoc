@@ -350,7 +350,7 @@ brain = bart(1, 'phantom --BRAIN -x 128')
 ```python
 # Visualizing the image using Matplotlib
 plt.figure(figsize=(4, 6))
-plt.imshow(np.rot90(np.abs(brain), 3), cmap='gray')
+plt.imshow(np.abs(brain), cmap='gray')
 plt.title('Ksapce Image')
 ```
 
@@ -365,7 +365,7 @@ brain_fmac = bart(1, 'fmac', brain, sens)
 plt.figure(figsize=(16,20))
 for i in range(8):
     plt.subplot(1, 8, i+1)
-    plt.imshow(np.rot90(abs(phantom_fmac[...,i]), 3), cmap='gray')
+    plt.imshow(abs(phantom_fmac[...,i]), cmap='gray')
     plt.title('Brain Image {}'.format(i))
 ```
 
