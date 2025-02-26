@@ -224,7 +224,7 @@ $$
 where the complex conjugate of $B$ is:
 
 $$
-B^* = \begin{bmatrix} \overline{b_{11}} & \overline{b_{12}} \\ \overline{b_{21}} & \overline{b_{22}} \end{bmatrix}
+B^* = \begin{bmatrix} {b_{11}}^* & {b_{12}}^* \\ {b_{21}}^* & {b_{22}}^* \end{bmatrix}
 $$
 
 
@@ -287,7 +287,7 @@ Performs element-wise multiplication and sums over the all the dimensions.
 !bart show matrix_output_squash2
 ```
 
-## Example Workflow (python)
+## Example Workflow for MRI (python)
 
 ```python
 # Importing the required libraries
@@ -305,7 +305,7 @@ from bart import bart
 Generate Shepp-Logan phantom directly in k-space:
 
 ```python
-phantom = bart(1, 'phantom -x 128 -k -s 8')
+ksp = bart(1, 'phantom -x 128 -k -s 8')
 ```
 
 ```python
@@ -313,7 +313,7 @@ phantom = bart(1, 'phantom -x 128 -k -s 8')
 plt.figure(figsize=(16,20))
 for i in range(8):
     plt.subplot(1, 8, i+1)
-    plt.imshow(abs(phantom[...,i]**.3), cmap='gray')
+    plt.imshow(abs(ksp[...,i])**.3, cmap='gray')
     plt.title('kspace image {}'.format(i))
 ```
 
@@ -325,7 +325,11 @@ Create sensitivity maps for 8 coils:
 `-m 1`: Compute one set of sensitivity maps.
 
 ```python
-sens = bart(1, 'ecalib -m 1', phantom)
+sens = bart(1, 'ecalib -m 1', ksp)
+```
+
+```python
+sens.shape
 ```
 
 ```python
@@ -334,87 +338,67 @@ plt.figure(figsize=(16,20))
 for i in range(8):
     plt.subplot(1, 8, i+1)
     plt.imshow(abs(sens[...,i]), cmap='gray')
-    plt.title('Sensitivity {}'.format(i))
+    plt.title('sens {}'.format(i))
 ```
 
-### Example 1: Use `bart fmac` to apply sensitivity maps to the phantom k-space:
+### 3. Generate a Brain Image by `phantom`
 
 ```python
-phantom_fmac = bart(1, 'fmac', phantom, sens)
-```
-
-```python
-phantom_fmac.shape
-```
-
-```python
-# Visualizing the images using Matplotlib 
-plt.figure(figsize=(16,20))
-for i in range(8):
-    plt.subplot(1, 8, i+1)
-    plt.imshow(abs(phantom_fmac[...,i]**.3), cmap='gray')
-    plt.title('Phantom_fmac {}'.format(i))
-```
-
-### Example 2: Use `bart fmac` to apply sensitivity maps to the phantom k-space by option `-A`:
-
-`-A`: add to existing output (instead of overwriting)
-
-```python
-phantom_fmac_A = bart(1, 'fmac -A', phantom, sens)
-```
-
-```python
-# Visualizing the images using Matplotlib 
-plt.figure(figsize=(16,20))
-for i in range(8):
-    plt.subplot(1, 8, i+1)
-    plt.imshow(abs(phantom_fmac_A[...,i]**.3), cmap='gray')
-    plt.title('fmac_A {}'.format(i))
-```
-
-### Example 3: Use `bart fmac` to apply sensitivity maps to the phantom k-space by option `-C`:
-
-`-C`: conjugate input2
-
-```python
-phantom_fmac_C = bart(1, 'fmac -C', phantom, sens)
-```
-
-```python
-# Visualizing the images using Matplotlib 
-plt.figure(figsize=(16,20))
-for i in range(8):
-    plt.subplot(1, 8, i+1)
-    plt.imshow(abs(phantom_fmac_C[...,i]**.3), cmap='gray')
-    plt.title('fmac_C {}'.format(i))
-```
-
-### Example 4: Use `bart fmac` to apply sensitivity maps to the phantom k-space by option `-s`:
-
-`-s b`: squash dimensions selected by bitmask b
-
-`-s 8`: squash 3rd dimesnsion
-
-```python
-phantom_fmac_s = bart(1, 'fmac -s 8', phantom, sens)
-```
-
-```python
-phantom_fmac_s.shape
+brain = bart(1, 'phantom --BRAIN -x 128')
 ```
 
 ```python
 # Visualizing the image using Matplotlib
 plt.figure(figsize=(4, 6))
-plt.imshow(np.abs(phantom_fmac_s**.3), cmap='gray')
+plt.imshow(np.rot90(np.abs(brain), 3), cmap='gray')
 plt.title('Ksapce Image')
 ```
 
-```python
+### Example 2.1: Use `bart fmac` to apply sensitivity maps to the brain image:
 
+```python
+brain_fmac = bart(1, 'fmac', brain, sens)
 ```
 
 ```python
-
+# Visualizing the images using Matplotlib 
+plt.figure(figsize=(16,20))
+for i in range(8):
+    plt.subplot(1, 8, i+1)
+    plt.imshow(np.rot90(abs(phantom_fmac[...,i]), 3), cmap='gray')
+    plt.title('Brain Image {}'.format(i))
 ```
+
+Performing an inverse FFT on k-space data (`ksp`)
+
+```python
+phantom = bart(1, 'fft -i 3', ksp)
+```
+
+```python
+# Visualizing the images using Matplotlib 
+plt.figure(figsize=(16,20))
+for i in range(8):
+    plt.subplot(1, 8, i+1)
+    plt.imshow(abs(phantom[...,i]), cmap='gray')
+    plt.title('Phantom Image {}'.format(i))
+```
+
+### Example 2.2: Performing coil combination using sensitivity maps (`sens`) to obtain a final image.
+
+`-C`: Uses the conjugate of `sens`.
+
+`-s 8`: Squashes dimension 8 (typically the coil dimension in BART).
+
+```python
+image = bart(1, 'fmac -C -s 8', phantom, sens)
+```
+
+```python
+# Visualizing the image using Matplotlib
+plt.figure(figsize=(4, 6))
+plt.imshow(np.abs(image), cmap='gray')
+plt.title('Image')
+```
+
+
