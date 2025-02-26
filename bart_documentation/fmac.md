@@ -49,6 +49,48 @@ $$
 O = A \circ B = \begin{bmatrix} a_{11} \cdot b_{11} & a_{12} \cdot b_{12} \\ a_{21} \cdot b_{21} & a_{22} \cdot b_{22} \end{bmatrix}
 $$
 
+
+### `s`: Squashing a Dimension 
+
+If we squash the **first dimension** (`b = 1` in binary: `0001`), `fmac` **sums over rows**:
+
+$$
+O = \sum_{\text{rows}} (A \circ B)
+$$
+
+$$
+O =
+\begin{bmatrix}
+(a_{11} \cdot b_{11}) + (a_{21} \cdot b_{21}) & (a_{12} \cdot b_{12}) + (a_{22} \cdot b_{22})
+\end{bmatrix}
+$$
+
+
+### Squashing the Second Dimension (`-s 2`)
+If we squash the **second dimension** (`b = 2` in binary: `0010`), `fmac` **sums over columns**:
+
+$$
+O = \sum_{\text{columns}} (A \circ B)
+$$
+
+$$
+O =
+\begin{bmatrix}
+(a_{11} \cdot b_{11}) + (a_{12} \cdot b_{12}) \\
+(a_{21} \cdot b_{21}) + (a_{22} \cdot b_{22})
+\end{bmatrix}
+$$
+
+This results in a **1D column vector**:
+
+### Full Summation (`-s 3`)
+If `b = 3` (binary `0011`), it squashes **both dimensions**, resulting in a **single scalar**:
+
+$$
+O = (a_{11} \cdot b_{11}) + (a_{12} \cdot b_{12}) + (a_{21} \cdot b_{21}) + (a_{22} \cdot b_{22})
+$$
+
+
 ### For Mismatched Dimensions with Singleton dimension
 
 
