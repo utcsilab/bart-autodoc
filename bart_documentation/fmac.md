@@ -49,6 +49,33 @@ $$
 O = A \circ B = \begin{bmatrix} a_{11} \cdot b_{11} & a_{12} \cdot b_{12} \\ a_{21} \cdot b_{21} & a_{22} \cdot b_{22} \end{bmatrix}
 $$
 
+### For Mismatched Dimensions with Singleton dimension
+
+
+If **B** has a singleton dimension (one column instead of two), `fmac` will **loop over the missing dimension**:
+
+$$
+A = \begin{bmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{bmatrix}, \quad
+B = \begin{bmatrix} b_{11} \\ b_{21} \end{bmatrix}
+$$
+
+
+Since `B` has only **one column**, 
+
+$$
+O = A \circ B =
+\begin{bmatrix}
+a_{11} \cdot b_{11} & a_{12} \cdot b_{11} \\
+a_{21} \cdot b_{21} & a_{22} \cdot b_{21}
+\end{bmatrix}
+$$
+
+### **Summary of Broadcasting Rule**
+
+- If a dimension in **B** is **1**, `fmac` **copies its values across that dimension**.
+  
+- If **A and B have different dimensions that are not 1**, `fmac` **throws an error**.
+
 
 
 ## Example for Matrix (using Bash)
@@ -184,7 +211,7 @@ Performs element-wise multiplication of `matrix_A` with the **complex conjugate*
 !bart show -m matrix_output_conjugate
 ```
 
-**Note**: As the example showing, if the dimensions of `matrix_A` and `matrix_C` do not match, BART will repeat the elements of `matrix_C` along the mismatched dimension to match `matrix_A`. As shown in the example, the `matrix_C` (2×1) is repeated to perform element-wise multiplication with `matrix_A`.
+**Note**: As the example showing, if the dimensions of `matrix_A` and `matrix_C` do not match, and `matrix_C` with Singleton dimension. BART will repeat the elements of `matrix_C` along the mismatched dimension to match `matrix_A`. As shown in the example, the `matrix_C` (2×1) is repeated to perform element-wise multiplication with `matrix_A`.
 
 
 ## `-s b`: Squashes dimensions (summed along the dimensions) specified by the bitmask b after performing element-wise multiplication.
