@@ -365,7 +365,7 @@ brain_fmac = bart(1, 'fmac', brain, sens)
 plt.figure(figsize=(16,20))
 for i in range(8):
     plt.subplot(1, 8, i+1)
-    plt.imshow(abs(phantom_fmac[...,i]), cmap='gray')
+    plt.imshow(abs(brian_fmac[...,i]), cmap='gray')
     plt.title('Brain Image {}'.format(i))
 ```
 
